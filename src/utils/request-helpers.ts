@@ -1,5 +1,6 @@
-import fetch from 'node-fetch';
+import fetch, { Response } from 'node-fetch';
 import UserAgent from 'user-agents';
+import { logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
 
 export function createCookies(
@@ -26,17 +27,30 @@ export interface NexusPhpSignInTokens {
   tracker_ssl?: string;
 }
 
+function formatSuccessMatcher(
+  matcher: RegExp | ((r: Response, text: string) => boolean | Promise<boolean>)
+) {
+  if (getTypeOf(matcher) === 'regexp') {
+    return async (_: any, text: string) => (matcher as RegExp).test(text);
+  }
+  return matcher as Exclude<typeof matcher, RegExp>;
+}
+
 export async function signInNexusPhpSite(options: {
   signInUrl: string;
+  requestMethod?: string;
+  requestBody?: string;
   tokens: NexusPhpSignInTokens;
-  successMatchers?: RegExp | ((r: Response) => boolean | Promise<boolean>);
+  successMatcher?:
+    | RegExp
+    | ((r: Response, text: string) => boolean | Promise<boolean>);
 }) {
-  const { tokens, successMatchers = () => true } = options;
+  const { signInUrl, tokens, successMatcher = () => true } = options;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
-  const response = await fetch('https://www.hdarea.co/sign_in.php', {
-    method: 'post',
+  const response = await fetch(signInUrl, {
+    method: options.requestMethod || 'post',
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       'user-agent': ua.toString(),
@@ -48,24 +62,19 @@ export async function signInNexusPhpSite(options: {
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
       })
     },
-    body: 'action=sign_in'
+    body: options.requestBody || ''
   });
 
   if (!response.ok) {
+    logger.error({ url: signInUrl, status: response.status, response });
+    throw response;
+  }
+  const text = await response.text();
+  const matched = await formatSuccessMatcher(successMatcher)(response, text);
+  if (!matched) {
+    logger.error({ url: signInUrl, status: response.status, text, response });
     throw response;
   }
 
-  if (getTypeOf(successMatchers) === 'regexp') {
-    const text = await response.text();
-    if (!(successMatchers as RegExp).test(text)) {
-      throw response;
-    }
-  } else if (successMatchers) {
-    const matched = await (successMatchers as Function)(response);
-    if (!matched) {
-      throw response;
-    }
-  }
-  const text = await response.text();
-  console.log(text, tokens);
+  return text;
 }
