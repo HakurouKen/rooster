@@ -1,7 +1,9 @@
 import cron from 'node-cron';
-import { readJsonSync } from './utils/miscs.js';
+import { createLogger } from './utils/logger.js';
+import { taskConfigs } from './configs.js';
 
-import taskHdareaSignin from './tasks/hdarea-signin.js';
+import TaskHdareaSignin from './tasks/hdarea-signin.js';
+import TaskHaidanSignIn from './tasks/haidan-signin.js';
 
 interface Runner {
   name: string;
@@ -9,30 +11,43 @@ interface Runner {
   task: () => any;
 }
 
-const configs = readJsonSync('configs.private.json');
-
 export const runners: Runner[] = [
   {
     name: 'hdarea-signin',
     schedule: '30 12 * * *',
     task: () =>
-      taskHdareaSignin({
-        uid: configs.HDAREA_UID,
-        pass: configs.HDAREA_PASS,
-        login: configs.HDAREA_LOGIN,
-        ssl: configs.HDAREA_SSL,
-        tracker_ssl: configs.HDAREA_TRACKER_SSL
+      TaskHdareaSignin({
+        uid: taskConfigs.HDAREA_UID,
+        pass: taskConfigs.HDAREA_PASS,
+        login: taskConfigs.HDAREA_LOGIN,
+        ssl: taskConfigs.HDAREA_SSL,
+        tracker_ssl: taskConfigs.HDAREA_TRACKER_SSL
+      })
+  },
+  {
+    name: 'haidan-signin',
+    schedule: '30 12 * * *',
+    task: () =>
+      TaskHaidanSignIn({
+        uid: taskConfigs.HAIDAN_UID,
+        pass: taskConfigs.HAIDAN_PASS,
+        login: taskConfigs.HAIDAN_LOGIN,
+        ssl: taskConfigs.HAIDAN_SSL,
+        tracker_ssl: taskConfigs.HAIDAN_TRACKER_SSL
       })
   }
 ];
 
-// async function runTask(runner: Runner) {
-//   try {
-//     await runner.task();
-//   } catch (e) {
-    
-//   }
-// }
+async function runTask(runner: Runner) {
+  const logger = createLogger(runner.name);
+  try {
+    logger.info(`[${runner.name}] start.`);
+    await runner.task();
+    logger.info(`[${runner.name}] end.`);
+  } catch (e) {
+    logger.error(`[${runner.name}] failed: ${e}`);
+  }
+}
 
 export function run(name: string, once?: boolean) {
   const runner = runners.find((runner) => runner.name === name);
@@ -40,9 +55,9 @@ export function run(name: string, once?: boolean) {
     throw new Error(`Runner "${name}" not found.`);
   }
   if (once) {
-    return runner.task();
+    return runTask(runner);
   }
-  return cron.schedule(runner.schedule, runner.task);
+  return cron.schedule(runner.schedule, () => runTask(runner));
 }
 
 export function runAll() {
