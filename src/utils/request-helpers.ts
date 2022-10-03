@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
 import UserAgent from 'user-agents';
-import { getTypeOf } from './miscs';
+import { getTypeOf } from './miscs.js';
 
 export function createCookies(
   o?: Record<string, number | string | undefined | null>
@@ -23,7 +23,7 @@ export interface NexusPhpSignInTokens {
   pass: string;
   login?: string;
   ssl?: string;
-  tracker_ssl: string;
+  tracker_ssl?: string;
 }
 
 export async function signInNexusPhpSite(options: {
@@ -33,7 +33,7 @@ export async function signInNexusPhpSite(options: {
 }) {
   const { tokens, successMatchers = () => true } = options;
 
-  const ua = new UserAgent({ deviceCategory: 'pc' });
+  const ua = new UserAgent({ deviceCategory: 'desktop' });
 
   const response = await fetch('https://www.hdarea.co/sign_in.php', {
     method: 'post',
@@ -47,7 +47,8 @@ export async function signInNexusPhpSite(options: {
         c_secure_ssl: tokens.ssl || 'eWVhaA%3D%3D',
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
       })
-    }
+    },
+    body: 'action=sign_in'
   });
 
   if (!response.ok) {
@@ -65,4 +66,6 @@ export async function signInNexusPhpSite(options: {
       throw response;
     }
   }
+  const text = await response.text();
+  console.log(text, tokens);
 }

@@ -6,15 +6,30 @@
   "keywords": [],
   "author": "leroy",
   "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "exec": "cross-env DEBUG=1 node dist/bin/exec",
+    "build": "tsc && tsc-alias",
+    "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
+  },
   "devDependencies": {
+    "@types/node": "^18.7.23",
+    "@types/node-cron": "^3.0.4",
     "@types/user-agents": "^1.0.2",
+    "@types/yargs": "^17.0.13",
+    "concurrently": "^7.4.0",
+    "cross-env": "^7.0.3",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
+    "tsc-alias": "^1.7.0",
     "typescript": "^4.8.4"
   },
   "dependencies": {
+    "node-cron": "^3.0.2",
     "node-fetch": "^3.2.10",
-    "user-agents": "^1.0.1131"
+    "pino": "^8.6.1",
+    "user-agents": "^1.0.1131",
+    "yargs": "^17.6.0"
   },
   "lint-staged": {
     "*.{js,ts}": "prettier --write"
