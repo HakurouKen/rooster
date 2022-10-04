@@ -4,6 +4,7 @@ import { taskConfigs } from './configs.js';
 
 import TaskHdareaSignin from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
+import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 
 interface Runner {
   name: string;
@@ -14,7 +15,7 @@ interface Runner {
 export const runners: Runner[] = [
   {
     name: 'hdarea-signin',
-    schedule: '30 12 * * *',
+    schedule: '30 0 * * *',
     task: () =>
       TaskHdareaSignin({
         uid: taskConfigs.HDAREA_UID,
@@ -26,7 +27,7 @@ export const runners: Runner[] = [
   },
   {
     name: 'haidan-signin',
-    schedule: '30 12 * * *',
+    schedule: '30 0 * * *',
     task: () =>
       TaskHaidanSignIn({
         uid: taskConfigs.HAIDAN_UID,
@@ -34,6 +35,14 @@ export const runners: Runner[] = [
         login: taskConfigs.HAIDAN_LOGIN,
         ssl: taskConfigs.HAIDAN_SSL,
         tracker_ssl: taskConfigs.HAIDAN_TRACKER_SSL
+      })
+  },
+  {
+    name: 'netease-music-signin',
+    schedule: '15 0 * * *',
+    task: () =>
+      TaskNeteaseSignIn({
+        u: taskConfigs.NETEASE_MUSIC_U
       })
   }
 ];
