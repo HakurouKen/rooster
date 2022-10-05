@@ -2,8 +2,9 @@ import cron from 'node-cron';
 import { logger } from './utils/logger.js';
 import { taskConfigs } from './configs.js';
 
-import TaskHdareaSignin from './tasks/hdarea-signin.js';
+import TaskHdareaSignIn from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
+import TaskGainBoundSignIn from './tasks/gainbound-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 
@@ -17,39 +18,27 @@ export const runners: Runner[] = [
   {
     name: 'hdarea-signin',
     schedule: '30 0 * * *',
-    task: () =>
-      TaskHdareaSignin({
-        uid: taskConfigs.HDAREA_UID,
-        pass: taskConfigs.HDAREA_PASS,
-        login: taskConfigs.HDAREA_LOGIN,
-        ssl: taskConfigs.HDAREA_SSL,
-        tracker_ssl: taskConfigs.HDAREA_TRACKER_SSL
-      })
+    task: () => TaskHdareaSignIn(taskConfigs.hdarea)
   },
   {
     name: 'haidan-signin',
     schedule: '30 0 * * *',
-    task: () =>
-      TaskHaidanSignIn({
-        uid: taskConfigs.HAIDAN_UID,
-        pass: taskConfigs.HAIDAN_PASS,
-        login: taskConfigs.HAIDAN_LOGIN,
-        ssl: taskConfigs.HAIDAN_SSL,
-        tracker_ssl: taskConfigs.HAIDAN_TRACKER_SSL
-      })
+    task: () => TaskHaidanSignIn(taskConfigs.haidan)
   },
   {
     name: 'netease-music-signin',
     schedule: '15 0 * * *',
-    task: () =>
-      TaskNeteaseSignIn({
-        u: taskConfigs.NETEASE_MUSIC_U
-      })
+    task: () => TaskNeteaseSignIn(taskConfigs.netease_music)
   },
   {
     name: 'health-check',
     schedule: '0 1/* * * *',
     task: () => TaskHealthCheck()
+  },
+  {
+    name: 'gainbound-signin',
+    schedule: '30 0 * * *',
+    task: () => TaskGainBoundSignIn(taskConfigs.gainbound)
   }
 ];
 

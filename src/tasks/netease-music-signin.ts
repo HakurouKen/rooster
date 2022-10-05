@@ -10,10 +10,10 @@ enum NeteaseMusicDeviceType {
 const logger = createLogger('netease-music-signin');
 
 async function neteaseMusicSignIn(options: {
-  u: string;
+  music_u: string;
   deviceType: NeteaseMusicDeviceType;
 }) {
-  const { deviceType = NeteaseMusicDeviceType.MOBILE, u } = options;
+  const { deviceType = NeteaseMusicDeviceType.MOBILE, music_u } = options;
   const ua = new UserAgent({
     deviceCategory:
       deviceType === NeteaseMusicDeviceType.PC ? 'desktop' : 'mobile'
@@ -24,7 +24,7 @@ async function neteaseMusicSignIn(options: {
       {
         headers: {
           Referer: 'https://music.163.com/',
-          Cookie: `MUSIC_U=${u}`,
+          Cookie: `MUSIC_U=${music_u}`,
           'User-Agent': ua.toString()
         }
       }
@@ -36,10 +36,10 @@ async function neteaseMusicSignIn(options: {
   }
 }
 
-export default function (options: { u: string }) {
-  const { u } = options;
+export default function (options: { music_u: string }) {
+  const { music_u } = options;
   return Promise.all([
-    neteaseMusicSignIn({ u, deviceType: NeteaseMusicDeviceType.MOBILE }),
-    neteaseMusicSignIn({ u, deviceType: NeteaseMusicDeviceType.PC })
+    neteaseMusicSignIn({ music_u, deviceType: NeteaseMusicDeviceType.MOBILE }),
+    neteaseMusicSignIn({ music_u, deviceType: NeteaseMusicDeviceType.PC })
   ]);
 }

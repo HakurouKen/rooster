@@ -13,6 +13,6 @@ const rawArgv: any = yargs(process.argv.slice(2))
   .parse();
 
 export const configs: { logPath: string; debug: boolean } = {
-  logPath: rawArgv.logPath || taskConfigs.$LOG_PATH || '~/.punch/',
+  logPath: rawArgv.logPath || taskConfigs._?.log_path || '~/.punch/',
   debug: rawArgv.debug
 };
