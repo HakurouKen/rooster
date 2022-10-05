@@ -5,7 +5,7 @@ import { taskConfigs } from './configs.js';
 import TaskHdareaSignin from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
-import TaskHealthCheck from './tasks/health-check';
+import TaskHealthCheck from './tasks/health-check.js';
 
 interface Runner {
   name: string;
