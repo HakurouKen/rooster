@@ -18,6 +18,16 @@ interface Runner {
 
 export const runners: Runner[] = [
   {
+    name: 'health-check',
+    schedule: '0 1/* * * *',
+    task: () => TaskHealthCheck()
+  },
+  {
+    name: 'netease-music-signin',
+    schedule: '15 0 * * *',
+    task: () => TaskNeteaseSignIn(taskConfigs.netease_music)
+  },
+  {
     name: 'hdarea-signin',
     schedule: '30 0 * * *',
     task: () => TaskHdareaSignIn(taskConfigs.hdarea)
@@ -26,16 +36,6 @@ export const runners: Runner[] = [
     name: 'haidan-signin',
     schedule: '30 0 * * *',
     task: () => TaskHaidanSignIn(taskConfigs.haidan)
-  },
-  {
-    name: 'netease-music-signin',
-    schedule: '15 0 * * *',
-    task: () => TaskNeteaseSignIn(taskConfigs.netease_music)
-  },
-  {
-    name: 'health-check',
-    schedule: '0 1/* * * *',
-    task: () => TaskHealthCheck()
   },
   {
     name: 'gainbound-signin',
