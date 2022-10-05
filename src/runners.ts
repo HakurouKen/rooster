@@ -5,6 +5,7 @@ import { taskConfigs } from './configs.js';
 import TaskHdareaSignIn from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
 import TaskGainBoundSignIn from './tasks/gainbound-signin.js';
+import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 
@@ -39,6 +40,11 @@ export const runners: Runner[] = [
     name: 'gainbound-signin',
     schedule: '30 0 * * *',
     task: () => TaskGainBoundSignIn(taskConfigs.gainbound)
+  },
+  {
+    name: 'hdvideo-signin',
+    schedule: '30 0 * * *',
+    task: () => TaskHdvideoSignIn(taskConfigs.hdvideo)
   }
 ];
 
