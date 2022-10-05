@@ -1,10 +1,11 @@
 import cron from 'node-cron';
-import { createLogger } from './utils/logger.js';
+import { logger } from './utils/logger.js';
 import { taskConfigs } from './configs.js';
 
 import TaskHdareaSignin from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
+import TaskHealthCheck from './tasks/health-check';
 
 interface Runner {
   name: string;
@@ -44,11 +45,15 @@ export const runners: Runner[] = [
       TaskNeteaseSignIn({
         u: taskConfigs.NETEASE_MUSIC_U
       })
+  },
+  {
+    name: 'health-check',
+    schedule: '0 1/* * * *',
+    task: () => TaskHealthCheck()
   }
 ];
 
 async function runTask(runner: Runner) {
-  const logger = createLogger(runner.name);
   try {
     logger.info(`[${runner.name}] start.`);
     await runner.task();
@@ -70,5 +75,7 @@ export function run(name: string, once?: boolean) {
 }
 
 export function runAll() {
-  return runners.map((runner) => cron.schedule(runner.schedule, runner.task));
+  return runners.map((runner) =>
+    cron.schedule(runner.schedule, () => runTask(runner))
+  );
 }
