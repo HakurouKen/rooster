@@ -6,6 +6,7 @@ import {
 export default async function haidanSignIn(tokens: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
     signInUrl: 'https://www.haidan.video/signin.php',
+    requestMethod: 'post',
     tokens
   });
 }

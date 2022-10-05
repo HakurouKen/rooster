@@ -6,7 +6,6 @@ import {
 export default async function gainboundSignIn(tokens: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
     signInUrl: 'https://gainbound.net/attendance.php',
-    tokens,
-    requestMethod: 'get',
+    tokens
   });
 }

@@ -56,7 +56,7 @@ export async function signInNexusPhpSite(options: {
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
   const response = await fetch(signInUrl, {
-    method: options.requestMethod || 'post',
+    method: options.requestMethod || 'get',
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       'user-agent': ua.toString(),
@@ -68,7 +68,7 @@ export async function signInNexusPhpSite(options: {
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
       })
     },
-    body: options.requestBody || null
+    body: options.requestBody
   });
 
   if (!response.ok) {
