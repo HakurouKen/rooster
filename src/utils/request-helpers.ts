@@ -1,4 +1,5 @@
 import fetch, { Response } from 'node-fetch';
+import { Logger } from 'pino';
 import UserAgent from 'user-agents';
 import { logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
@@ -36,6 +37,11 @@ function formatSuccessMatcher(
   return matcher as Exclude<typeof matcher, RegExp>;
 }
 
+export interface RequestContext {
+  logger: Logger;
+  params: any;
+}
+
 export async function signInNexusPhpSite(options: {
   signInUrl: string;
   requestMethod?: string;
@@ -62,7 +68,7 @@ export async function signInNexusPhpSite(options: {
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
       })
     },
-    body: options.requestBody || ''
+    body: options.requestBody || null
   });
 
   if (!response.ok) {
@@ -76,5 +82,6 @@ export async function signInNexusPhpSite(options: {
     throw response;
   }
 
+  logger.info({ url: signInUrl, text, response });
   return text;
 }
