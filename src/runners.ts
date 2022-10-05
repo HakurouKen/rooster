@@ -6,6 +6,7 @@ import TaskHdareaSignIn from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
 import TaskGainBoundSignIn from './tasks/gainbound-signin.js';
 import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
+import TaskHddolbySignIn from './tasks/hddolby-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 
@@ -45,6 +46,11 @@ export const runners: Runner[] = [
     name: 'hdvideo-signin',
     schedule: '30 0 * * *',
     task: () => TaskHdvideoSignIn(taskConfigs.hdvideo)
+  },
+  {
+    name: 'hddolby-signin',
+    schedule: '30 0 * * *',
+    task: () => TaskHddolbySignIn(taskConfigs.hddolby)
   }
 ];
 
