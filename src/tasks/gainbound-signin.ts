@@ -1,11 +1,19 @@
 import {
   NexusPhpSignInTokens,
+  RequestContext,
   signInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function gainboundSignIn(tokens: NexusPhpSignInTokens) {
+export default async function gainboundSignIn(
+  context: RequestContext<NexusPhpSignInTokens>
+) {
+  const { params: tokens, logger } = context;
+
   return signInNexusPhpSite({
-    signInUrl: 'https://gainbound.net/attendance.php',
-    tokens
+    logger,
+    params: {
+      signInUrl: 'https://gainbound.net/attendance.php',
+      tokens
+    }
   });
 }

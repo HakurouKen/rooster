@@ -1,7 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 import { Logger } from 'pino';
 import UserAgent from 'user-agents';
-import { logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
 
 export function createCookies(
@@ -37,26 +36,29 @@ function formatSuccessMatcher(
   return matcher as Exclude<typeof matcher, RegExp>;
 }
 
-export interface RequestContext {
+export type RequestContext<T> = {
   logger: Logger;
-  params: any;
-}
+  params: T;
+};
 
-export async function signInNexusPhpSite(options: {
-  signInUrl: string;
-  requestMethod?: string;
-  requestBody?: string;
-  tokens: NexusPhpSignInTokens;
-  successMatcher?:
-    | RegExp
-    | ((r: Response, text: string) => boolean | Promise<boolean>);
-}) {
-  const { signInUrl, tokens, successMatcher = () => true } = options;
+export async function signInNexusPhpSite(
+  context: RequestContext<{
+    signInUrl: string;
+    requestMethod?: string;
+    requestBody?: string;
+    tokens: NexusPhpSignInTokens;
+    successMatcher?:
+      | RegExp
+      | ((r: Response, text: string) => boolean | Promise<boolean>);
+  }>
+) {
+  const { params, logger } = context;
+  const { signInUrl, tokens, successMatcher = () => true } = params;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
   const response = await fetch(signInUrl, {
-    method: options.requestMethod || 'get',
+    method: params.requestMethod || 'get',
     headers: {
       'content-type': 'application/x-www-form-urlencoded',
       'user-agent': ua.toString(),
@@ -68,7 +70,7 @@ export async function signInNexusPhpSite(options: {
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
       })
     },
-    body: options.requestBody
+    body: params.requestBody
   });
 
   if (!response.ok) {

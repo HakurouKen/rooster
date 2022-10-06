@@ -1,5 +1,6 @@
 import cron from 'node-cron';
-import { logger } from './utils/logger.js';
+import { createLogger } from './utils/logger.js';
+import { RequestContext } from './utils/request-helpers.js';
 import { taskConfigs } from './configs.js';
 
 import TaskHdareaSignIn from './tasks/hdarea-signin.js';
@@ -10,54 +11,62 @@ import TaskHddolbySignIn from './tasks/hddolby-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 
-interface Runner {
+type Runner<T> = {
   name: string;
   schedule: string;
-  task: () => any;
-}
+  params?: T;
+  task: (request: RequestContext<T>) => void;
+};
 
-export const runners: Runner[] = [
+export const runners: Runner<any>[] = [
   {
     name: 'health-check',
     schedule: '0 1/* * * *',
-    task: () => TaskHealthCheck()
+    task: TaskHealthCheck
   },
   {
     name: 'netease-music-signin',
     schedule: '15 0 * * *',
-    task: () => TaskNeteaseSignIn(taskConfigs.netease_music)
+    params: taskConfigs.netease_music,
+    task: TaskNeteaseSignIn
   },
   {
     name: 'hdarea-signin',
     schedule: '30 0 * * *',
-    task: () => TaskHdareaSignIn(taskConfigs.hdarea)
+    params: taskConfigs.hdarea,
+    task: TaskHdareaSignIn
   },
   {
     name: 'haidan-signin',
     schedule: '30 0 * * *',
-    task: () => TaskHaidanSignIn(taskConfigs.haidan)
+    params: taskConfigs.haidan,
+    task: TaskHaidanSignIn
   },
   {
     name: 'gainbound-signin',
     schedule: '30 0 * * *',
-    task: () => TaskGainBoundSignIn(taskConfigs.gainbound)
+    params: taskConfigs.gainbound,
+    task: TaskGainBoundSignIn
   },
   {
     name: 'hdvideo-signin',
     schedule: '30 0 * * *',
-    task: () => TaskHdvideoSignIn(taskConfigs.hdvideo)
+    params: taskConfigs.hdvideo,
+    task: TaskHdvideoSignIn
   },
   {
     name: 'hddolby-signin',
     schedule: '30 0 * * *',
-    task: () => TaskHddolbySignIn(taskConfigs.hddolby)
+    params: taskConfigs.hddolby,
+    task: TaskHddolbySignIn
   }
 ];
 
-async function runTask(runner: Runner) {
+async function runTask(runner: Runner<any>) {
+  const logger = createLogger(runner.name);
   try {
     logger.info(`[${runner.name}] start.`);
-    await runner.task();
+    await runner.task({ logger, params: runner.params });
     logger.info(`[${runner.name}] end.`);
   } catch (e) {
     logger.error(`[${runner.name}] failed: ${e}`);

@@ -1,18 +1,20 @@
-import { createLogger } from '@/utils/logger.js';
 import fetch from 'node-fetch';
 import UserAgent from 'user-agents';
+import { RequestContext } from '@/utils/request-helpers.js';
 
 enum NeteaseMusicDeviceType {
   MOBILE = 0,
   PC = 1
 }
 
-const logger = createLogger('netease-music-signin');
-
-async function neteaseMusicSignIn(options: {
-  music_u: string;
-  deviceType: NeteaseMusicDeviceType;
-}) {
+async function neteaseMusicSignIn(
+  context: RequestContext<{
+    music_u: string;
+    deviceType: NeteaseMusicDeviceType;
+  }>
+) {
+  const options = context.params;
+  const { logger } = context;
   const { deviceType = NeteaseMusicDeviceType.MOBILE, music_u } = options;
   const ua = new UserAgent({
     deviceCategory:
@@ -36,10 +38,17 @@ async function neteaseMusicSignIn(options: {
   }
 }
 
-export default function (options: { music_u: string }) {
-  const { music_u } = options;
+export default function (context: RequestContext<{ music_u: string }>) {
+  const { logger } = context;
+  const { music_u } = context.params;
   return Promise.all([
-    neteaseMusicSignIn({ music_u, deviceType: NeteaseMusicDeviceType.MOBILE }),
-    neteaseMusicSignIn({ music_u, deviceType: NeteaseMusicDeviceType.PC })
+    neteaseMusicSignIn({
+      logger,
+      params: { music_u, deviceType: NeteaseMusicDeviceType.MOBILE }
+    }),
+    neteaseMusicSignIn({
+      logger,
+      params: { music_u, deviceType: NeteaseMusicDeviceType.PC }
+    })
   ]);
 }

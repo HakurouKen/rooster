@@ -1,5 +1,5 @@
 import path from 'path';
-import { pino } from 'pino';
+import { pino, Logger } from 'pino';
 import { configs } from '@/configs.js';
 
 export function createLogger(name: string) {
@@ -9,4 +9,4 @@ export function createLogger(name: string) {
   );
 }
 
-export const logger = createLogger('default');
+export { Logger };
