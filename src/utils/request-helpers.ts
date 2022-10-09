@@ -28,10 +28,10 @@ export interface NexusPhpSignInTokens {
 }
 
 function formatSuccessMatcher(
-  matcher: RegExp | ((r: Response, text: string) => boolean | Promise<boolean>)
+  matcher: RegExp | ((text: string, r: Response) => boolean | Promise<boolean>)
 ) {
   if (getTypeOf(matcher) === 'regexp') {
-    return async (_: any, text: string) => (matcher as RegExp).test(text);
+    return async (text: string) => (matcher as RegExp).test(text);
   }
   return matcher as Exclude<typeof matcher, RegExp>;
 }
@@ -49,7 +49,7 @@ export async function signInNexusPhpSite(
     tokens: NexusPhpSignInTokens;
     successMatcher?:
       | RegExp
-      | ((r: Response, text: string) => boolean | Promise<boolean>);
+      | ((text: string, r: Response) => boolean | Promise<boolean>);
   }>
 ) {
   const { params, logger } = context;
@@ -78,7 +78,7 @@ export async function signInNexusPhpSite(
     throw response;
   }
   const text = await response.text();
-  const matched = await formatSuccessMatcher(successMatcher)(response, text);
+  const matched = await formatSuccessMatcher(successMatcher)(text, response);
   if (!matched) {
     logger.error({ url: signInUrl, status: response.status, text, response });
     throw response;
