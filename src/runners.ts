@@ -22,7 +22,7 @@ type Runner<T> = {
 export const runners: Runner<any>[] = [
   {
     name: 'health-check',
-    description: 'punch 检查',
+    description: '心跳检查',
     schedule: '0 1/* * * *',
     task: TaskHealthCheck
   },
