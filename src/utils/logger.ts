@@ -3,11 +3,12 @@ import { pino } from 'pino';
 
 export function createLogger(
   name: string,
-  options: { debug: boolean; logPath: string }
+  options: { verbose?: boolean; logPath?: string } = {}
 ) {
+  const { verbose = false, logPath = '~/.punch/' } = options;
   return pino(
-    { name, level: options.debug ? 'debug' : 'info' },
-    pino.destination(path.join(options.logPath, `${name}.log`))
+    { name, level: verbose ? 'debug' : 'info' },
+    pino.destination(path.join(logPath, `${name}.log`))
   );
 }
 
