@@ -1,12 +1,14 @@
 import path from 'path';
-import { pino, Logger } from 'pino';
-import { configs } from '@/configs.js';
+import { pino } from 'pino';
 
-export function createLogger(name: string) {
+export function createLogger(
+  name: string,
+  options: { debug: boolean; logPath: string }
+) {
   return pino(
-    { name, level: configs.debug ? 'debug' : 'info' },
-    pino.destination(path.join(configs.logPath, `${name}.log`))
+    { name, level: options.debug ? 'debug' : 'info' },
+    pino.destination(path.join(options.logPath, `${name}.log`))
   );
 }
 
-export { Logger };
+export type { Logger } from 'pino';

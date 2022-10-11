@@ -1,7 +1,7 @@
 import cron from 'node-cron';
 import { createLogger } from './utils/logger.js';
 import { RequestContext } from './utils/request-helpers.js';
-import { taskConfigs } from './configs.js';
+import { configs } from './configs.js';
 
 import TaskHdareaSignIn from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
@@ -27,37 +27,37 @@ export const runners: Runner<any>[] = [
   {
     name: 'netease-music-signin',
     schedule: '15 0 * * *',
-    params: taskConfigs.netease_music,
+    params: configs.netease_music,
     task: TaskNeteaseSignIn
   },
   {
     name: 'hdarea-signin',
     schedule: '30 0 * * *',
-    params: taskConfigs.hdarea,
+    params: configs.hdarea,
     task: TaskHdareaSignIn
   },
   {
     name: 'haidan-signin',
     schedule: '30 0 * * *',
-    params: taskConfigs.haidan,
+    params: configs.haidan,
     task: TaskHaidanSignIn
   },
   {
     name: 'gainbound-signin',
     schedule: '30 0 * * *',
-    params: taskConfigs.gainbound,
+    params: configs.gainbound,
     task: TaskGainBoundSignIn
   },
   {
     name: 'hdvideo-signin',
     schedule: '30 0 * * *',
-    params: taskConfigs.hdvideo,
+    params: configs.hdvideo,
     task: TaskHdvideoSignIn
   },
   {
     name: 'hddolby-signin',
     schedule: '30 0 * * *',
-    params: taskConfigs.hddolby,
+    params: configs.hddolby,
     task: TaskHddolbySignIn
   }
 ];

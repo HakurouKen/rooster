@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
-import { Logger } from 'pino';
 import UserAgent from 'user-agents';
+import type { Logger } from '@/utils/logger.js';
 import { getTypeOf } from './miscs.js';
 
 export function createCookies(
