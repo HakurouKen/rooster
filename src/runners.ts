@@ -10,6 +10,7 @@ import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
 import TaskHddolbySignIn from './tasks/hddolby-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
+import { ensureDir } from './utils/miscs.js';
 
 type Runner<T> = {
   name: string;
@@ -76,7 +77,10 @@ interface RunnerOptions {
 }
 
 async function runTask(runner: Runner<any>, options: RunnerOptions) {
-  const logger = createLogger(runner.name, options);
+  const { logPath = '~/punch/', verbose = false } = options;
+  ensureDir(logPath);
+  const logger = createLogger(runner.name, { logPath, verbose });
+
   try {
     logger.info(`[${runner.name}] start.`);
     await runner.task({ logger, params: runner.params });

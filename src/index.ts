@@ -7,10 +7,12 @@ function withRunnerOptions(yargs: yargs.Argv) {
     .positional('verbose', {
       alias: 'v',
       type: 'boolean',
+      default: false,
       description: 'verbose'
     })
     .positional('logPath', {
-      type: 'string'
+      type: 'string',
+      default: '~/.punch/'
     });
 }
 
@@ -34,7 +36,8 @@ yargs(hideBin(process.argv))
   .command('exec <task>', '执行单个任务', withRunnerOptions, (argv) => {
     run(argv.task as string, {
       verbose: argv.verbose,
-      logPath: argv.logPath
+      logPath: argv.logPath,
+      once: true
     });
   })
   .command(['*', 'run'], '运行监听', withRunnerOptions, (argv) => {

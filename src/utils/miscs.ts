@@ -1,14 +1,15 @@
-import { readFile } from 'node:fs/promises';
-import { readFileSync } from 'node:fs';
+import * as fs from 'node:fs';
 
 export function getTypeOf(o: any) {
   return Object.prototype.toString.call(o).slice(8, -1).toLowerCase();
 }
 
-export function readJson(file: string) {
-  return readFile(file, 'utf-8').then(JSON.parse);
-}
-
-export function readJsonSync(file: string) {
-  return JSON.parse(readFileSync(file, 'utf-8'));
+export function ensureDir(filepath: string) {
+  if (!fs.existsSync(filepath)) {
+    fs.mkdirSync(filepath, { recursive: true });
+  }
+  const stat = fs.statSync(filepath);
+  if (stat.isFile()) {
+    throw new Error(`Path ${filepath} must be a folder.`);
+  }
 }

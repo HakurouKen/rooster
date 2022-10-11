@@ -3,9 +3,9 @@ import { pino } from 'pino';
 
 export function createLogger(
   name: string,
-  options: { verbose?: boolean; logPath?: string } = {}
+  options: { verbose?: boolean; logPath: string }
 ) {
-  const { verbose = false, logPath = '~/.punch/' } = options;
+  const { verbose = false, logPath } = options;
   return pino(
     { name, level: verbose ? 'debug' : 'info' },
     pino.destination(path.join(logPath, `${name}.log`))
