@@ -7,9 +7,12 @@
   "author": "leroy",
   "license": "MIT",
   "type": "module",
+  "bin": {
+    "punch": "./dist/punch.mjs"
+  },
   "scripts": {
     "exec": "cross-env DEBUG=1 node dist/bin/exec",
-    "build": "tsc && tsc-alias",
+    "build": "zx ./scripts/build.mjs",
     "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
   },
   "devDependencies": {
@@ -19,10 +22,12 @@
     "@types/yargs": "^17.0.13",
     "concurrently": "^7.4.0",
     "cross-env": "^7.0.3",
+    "esbuild": "^0.15.10",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",
     "tsc-alias": "^1.7.0",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "zx": "^7.1.1"
   },
   "dependencies": {
     "cosmiconfig": "^7.0.1",
