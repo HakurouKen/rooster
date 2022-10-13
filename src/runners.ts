@@ -10,6 +10,7 @@ import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
 import TaskHddolbySignIn from './tasks/hddolby-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
+import TaskXkcdDownload from './tasks/xkcd-download.js';
 import { ensureDir } from './utils/miscs.js';
 
 type Runner<T> = {
@@ -68,6 +69,13 @@ export const runners: Runner<any>[] = [
     schedule: '30 0 * * *',
     params: configs.hddolby,
     task: TaskHddolbySignIn
+  },
+  {
+    name: 'xkcd-download',
+    description: 'xkcd 漫画下载',
+    schedule: '0 6 * * 0',
+    params: configs.xkcd,
+    task: TaskXkcdDownload
   }
 ];
 
@@ -77,7 +85,7 @@ interface RunnerOptions {
 }
 
 async function runTask(runner: Runner<any>, options: RunnerOptions) {
-  const { logPath = '~/punch/', verbose = false } = options;
+  const { logPath = '~/.punch/', verbose = false } = options;
   ensureDir(logPath);
   const logger = createLogger(runner.name, { logPath, verbose });
 
