@@ -8,6 +8,7 @@ import TaskHaidanSignIn from './tasks/haidan-signin.js';
 import TaskGainBoundSignIn from './tasks/gainbound-signin.js';
 import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
 import TaskHddolbySignIn from './tasks/hddolby-signin.js';
+import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
@@ -69,6 +70,13 @@ export const runners: Runner<any>[] = [
     schedule: '30 0 * * *',
     params: configs.hddolby,
     task: TaskHddolbySignIn
+  },
+  {
+    name: 'hdmayi-signin',
+    description: 'HD 蚂蚁签到',
+    schedule: '30 0 * * *',
+    params: configs.hdmayi,
+    task: TaskHdmayiSignIn
   },
   {
     name: 'xkcd-download',

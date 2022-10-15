@@ -73,8 +73,10 @@ export async function signInNexusPhpSite(
     body: params.requestBody
   });
 
+  logger.debug({ response });
+
   if (!response.ok) {
-    logger.error({ url: signInUrl, status: response.status, response });
+    logger.error({ url: signInUrl, status: response.status });
     throw response;
   }
   const text = await response.text();
@@ -84,6 +86,6 @@ export async function signInNexusPhpSite(
     throw response;
   }
 
-  logger.info({ url: signInUrl, text, response });
+  logger.info({ url: signInUrl, text });
   return text;
 }
