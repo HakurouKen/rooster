@@ -13,17 +13,19 @@ export function createLogger(
           level: verbose ? 'debug' : 'info',
           target: 'pino/file',
           options: { destination: path.join(logPath, `${name}.log`) }
-        },
+        }
       ].concat(
         verbose
-          ? [
-              {
-                level: 'debug',
-                target: 'pino-pretty',
-                options: { destination: 1 as any }
-              }
-            ]
-          : []
+          ? {
+              level: 'debug',
+              target: 'pino-pretty',
+              options: { destination: 1 as any }
+            }
+          : {
+              level: 'info',
+              target: 'pino/file',
+              options: { destination: 1 as any }
+            }
       )
     }
   });
