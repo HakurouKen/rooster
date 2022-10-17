@@ -9,6 +9,7 @@ import TaskGainBoundSignIn from './tasks/gainbound-signin.js';
 import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
 import TaskHddolbySignIn from './tasks/hddolby-signin.js';
 import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
+import TaskGgptSignIn from './tasks/ggpt-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
@@ -77,6 +78,13 @@ export const runners: Runner<any>[] = [
     schedule: '30 0 * * *',
     params: configs.hdmayi,
     task: TaskHdmayiSignIn
+  },
+  {
+    name: 'ggpt-signin',
+    description: 'GGPT 签到',
+    schedule: '30 0 * * *',
+    params: configs.ggpt,
+    task: TaskGgptSignIn
   },
   {
     name: 'xkcd-download',
