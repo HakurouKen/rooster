@@ -6,27 +6,21 @@ export function createLogger(
   options: { verbose?: boolean; logPath: string }
 ) {
   const { verbose = false, logPath } = options;
+  const level = verbose ? 'debug' : 'info';
   return pino({
     transport: {
       targets: [
         {
-          level: verbose ? 'debug' : 'info',
+          level,
           target: 'pino/file',
           options: { destination: path.join(logPath, `${name}.log`) }
+        },
+        {
+          level,
+          target: 'pino-pretty',
+          options: { destination: 1 as any }
         }
-      ].concat(
-        verbose
-          ? {
-              level: 'debug',
-              target: 'pino-pretty',
-              options: { destination: 1 as any }
-            }
-          : {
-              level: 'info',
-              target: 'pino/file',
-              options: { destination: 1 as any }
-            }
-      )
+      ]
     }
   });
 }
