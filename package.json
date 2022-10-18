@@ -11,7 +11,7 @@
     "punch": "./dist/punch.mjs"
   },
   "scripts": {
-    "exec": "cross-env DEBUG=1 node dist/bin/exec",
+    "exec": "node dist/bin/exec",
     "build": "zx ./scripts/build.mjs",
     "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
   },
@@ -21,7 +21,6 @@
     "@types/user-agents": "^1.0.2",
     "@types/yargs": "^17.0.13",
     "concurrently": "^7.4.0",
-    "cross-env": "^7.0.3",
     "esbuild": "^0.15.10",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",

@@ -8,7 +8,6 @@ specifiers:
   cheerio: 1.0.0-rc.12
   concurrently: ^7.4.0
   cosmiconfig: ^7.0.1
-  cross-env: ^7.0.3
   esbuild: ^0.15.10
   lint-staged: ^13.0.3
   node-cron: ^3.0.2
@@ -40,7 +39,6 @@ devDependencies:
   '@types/user-agents': 1.0.2
   '@types/yargs': 17.0.13
   concurrently: 7.4.0
-  cross-env: 7.0.3
   esbuild: 0.15.10
   lint-staged: 13.0.3
   prettier: 2.7.1
@@ -560,14 +558,6 @@ packages:
       path-type: 4.0.0
       yaml: 1.10.2
     dev: false
-
-  /cross-env/7.0.3:
-    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
-    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
-    hasBin: true
-    dependencies:
-      cross-spawn: 7.0.3
-    dev: true
 
   /cross-spawn/7.0.3:
     resolution: {integrity: sha512-iRDPJKUPVEND7dHPO8rkbOnPpyDygcDFtWjpeWNCgy8WP2rXcxXL8TskReQl6OrB2G7+UJrags1q15Fudc7G6w==}
