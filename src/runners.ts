@@ -103,9 +103,12 @@ interface RunnerOptions {
 }
 
 async function runTask(runner: Runner<any>, options: RunnerOptions) {
-  const { logPath = path.join(os.homedir(), '.punch/'), verbose = false } =
-    options;
-  ensureDir(logPath);
+  const {
+    logPath = configs._?.logPath || path.join(os.homedir(), '.punch/'),
+    verbose = false
+  } = options;
+
+  ensureDir(path.resolve(logPath));
   const logger = createLogger(runner.name, { logPath, verbose });
 
   try {

@@ -1,7 +1,5 @@
 #!/usr/bin/env node
 
-import os from 'os';
-import path from 'path';
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { run, runAll, runners } from '@/runners.js';
@@ -15,8 +13,7 @@ function withRunnerOptions(yargs: yargs.Argv) {
       description: 'verbose'
     })
     .positional('logPath', {
-      type: 'string',
-      default: path.join(os.homedir(), '.punch/')
+      type: 'string'
     });
 }
 
