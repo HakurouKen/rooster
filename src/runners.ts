@@ -102,11 +102,13 @@ interface RunnerOptions {
   logPath?: string;
 }
 
+function getLogPath(logPath?: string) {
+  return logPath || configs._?.logPath || path.join(os.homedir(), '.punch/');
+}
+
 async function runTask(runner: Runner<any>, options: RunnerOptions) {
-  const {
-    logPath = configs._?.logPath || path.join(os.homedir(), '.punch/'),
-    verbose = false
-  } = options;
+  const { verbose = false } = options;
+  const logPath = getLogPath(options.logPath);
 
   ensureDir(path.resolve(logPath));
   const logger = createLogger(runner.name, { logPath, verbose });
@@ -132,6 +134,9 @@ export function run(name: string, options: RunnerOptions & { once?: boolean }) {
 }
 
 export function runAll(options: RunnerOptions) {
+  const logPath = getLogPath(options.logPath);
+  const logger = createLogger('default', { logPath });
+  logger.info(`punch start running...`);
   return runners.map((runner) =>
     cron.schedule(runner.schedule, () => runTask(runner, options))
   );
