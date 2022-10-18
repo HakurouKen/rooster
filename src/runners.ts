@@ -1,7 +1,10 @@
+import os from 'os';
+import path from 'path';
 import cron from 'node-cron';
 import { createLogger } from './utils/logger.js';
 import { RequestContext } from './utils/request-helpers.js';
 import { configs } from './configs.js';
+import { ensureDir } from './utils/miscs.js';
 
 import TaskHdareaSignIn from './tasks/hdarea-signin.js';
 import TaskHaidanSignIn from './tasks/haidan-signin.js';
@@ -13,7 +16,6 @@ import TaskGgptSignIn from './tasks/ggpt-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
-import { ensureDir } from './utils/miscs.js';
 
 type Runner<T> = {
   name: string;
@@ -101,7 +103,8 @@ interface RunnerOptions {
 }
 
 async function runTask(runner: Runner<any>, options: RunnerOptions) {
-  const { logPath = '~/.punch/', verbose = false } = options;
+  const { logPath = path.join(os.homedir(), '.punch/'), verbose = false } =
+    options;
   ensureDir(logPath);
   const logger = createLogger(runner.name, { logPath, verbose });
 
