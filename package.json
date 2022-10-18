@@ -12,6 +12,7 @@
   },
   "scripts": {
     "exec": "node dist/bin/exec",
+    "play": "zx ./scripts/play.mjs",
     "build": "zx ./scripts/build.mjs",
     "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
   },
@@ -20,6 +21,7 @@
     "@types/node-cron": "^3.0.4",
     "@types/user-agents": "^1.0.2",
     "@types/yargs": "^17.0.13",
+    "chalk": "^5.1.2",
     "concurrently": "^7.4.0",
     "esbuild": "^0.15.10",
     "lint-staged": "^13.0.3",
