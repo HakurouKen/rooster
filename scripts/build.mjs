@@ -1,12 +1,11 @@
+#!/usr/bin/env zx
+import 'zx/globals';
 import * as path from 'node:path';
-import { readFile } from 'node:fs/promises';
 import * as esbuild from 'esbuild';
 
-function readJson(file) {
-  return readFile(file, 'utf-8').then(JSON.parse);
-}
-
-const packageJson = await readJson(path.join(__dirname, '..', 'package.json'));
+const packageJson = await fs.readJson(
+  path.join(__dirname, '..', 'package.json')
+);
 
 await esbuild.build({
   bundle: true,

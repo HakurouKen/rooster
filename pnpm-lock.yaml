@@ -5,7 +5,6 @@ specifiers:
   '@types/node-cron': ^3.0.4
   '@types/user-agents': ^1.0.2
   '@types/yargs': ^17.0.13
-  chalk: ^5.1.2
   cheerio: 1.0.0-rc.12
   concurrently: ^7.4.0
   cosmiconfig: ^7.0.1
@@ -40,7 +39,6 @@ devDependencies:
   '@types/node-cron': 3.0.4
   '@types/user-agents': 1.0.2
   '@types/yargs': 17.0.13
-  chalk: 5.1.2
   concurrently: 7.4.0
   cross-env: 7.0.3
   esbuild: 0.15.10

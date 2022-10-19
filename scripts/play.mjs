@@ -1,5 +1,6 @@
+#!/usr/bin/env zx
+import 'zx/globals';
 import * as esbuild from 'esbuild';
-import chalk from 'chalk';
 
 await esbuild.build({
   bundle: true,
