@@ -1,6 +1,5 @@
 import fetch, { Response } from 'node-fetch';
 import UserAgent from 'user-agents';
-import * as cheerio from 'cheerio';
 import type { Logger } from '@/utils/logger.js';
 import { getTypeOf } from './miscs.js';
 
