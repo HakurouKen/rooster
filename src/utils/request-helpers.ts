@@ -1,5 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 import UserAgent from 'user-agents';
+import * as cheerio from 'cheerio';
 import type { Logger } from '@/utils/logger.js';
 import { getTypeOf } from './miscs.js';
 
@@ -27,7 +28,7 @@ export interface NexusPhpSignInTokens {
   tracker_ssl?: string;
 }
 
-function formatSuccessMatcher(
+function normalizeSuccessMatcher(
   matcher: RegExp | ((text: string, r: Response) => boolean | Promise<boolean>)
 ) {
   if (getTypeOf(matcher) === 'regexp') {
@@ -53,7 +54,7 @@ export async function signInNexusPhpSite(
   }>
 ) {
   const { params, logger } = context;
-  const { signInUrl, tokens, successMatcher = () => true } = params;
+  const { signInUrl, tokens, successMatcher } = params;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
@@ -79,13 +80,22 @@ export async function signInNexusPhpSite(
     logger.error({ url: signInUrl, status: response.status });
     throw response;
   }
-  const text = await response.text();
-  const matched = await formatSuccessMatcher(successMatcher)(text, response);
+
+  if (!successMatcher) {
+    return response;
+  }
+
+  const responseText = await response.clone().text();
+
+  const matched = await normalizeSuccessMatcher(successMatcher)(
+    responseText,
+    response
+  );
   if (!matched) {
-    logger.error({ url: signInUrl, status: response.status, text, response });
+    logger.error({ url: signInUrl, status: response.status, responseText });
     throw response;
   }
 
-  logger.info({ url: signInUrl, text });
-  return text;
+  logger.info({ url: signInUrl, message: 'success' });
+  return response;
 }
