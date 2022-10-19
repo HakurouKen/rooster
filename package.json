@@ -14,7 +14,7 @@
     "exec": "node dist/bin/exec",
     "play": "zx ./scripts/play.mjs",
     "build": "zx ./scripts/build.mjs",
-    "build:watch": "concurrently \"tsc -w\" \"tsc-alias -w\""
+    "build:watch": "cross-env DEBUG=1 npm run build"
   },
   "devDependencies": {
     "@types/node": "^18.7.23",
@@ -23,6 +23,7 @@
     "@types/yargs": "^17.0.13",
     "chalk": "^5.1.2",
     "concurrently": "^7.4.0",
+    "cross-env": "^7.0.3",
     "esbuild": "^0.15.10",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1",

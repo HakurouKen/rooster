@@ -13,6 +13,7 @@ await esbuild.build({
   format: 'esm',
   entryPoints: ['src/index.ts'],
   outfile: 'dist/punch.mjs',
+  watch: process.env.DEBUG === '1',
   external: Object.keys(packageJson.dependencies || {}),
   platform: 'node',
   target: 'node14'
