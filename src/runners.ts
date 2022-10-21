@@ -11,6 +11,7 @@ import TaskHaidanSignIn from './tasks/haidan-signin.js';
 import TaskGainBoundSignIn from './tasks/gainbound-signin.js';
 import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
 import TaskHddolbySignIn from './tasks/hddolby-signin.js';
+import TaskHdtimeSignIn from './tasks/hdtime-signin.js';
 import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
 import TaskGgptSignIn from './tasks/ggpt-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
@@ -80,6 +81,13 @@ export const runners: Runner<any>[] = [
     schedule: '30 0 * * *',
     params: configs.hdmayi,
     task: TaskHdmayiSignIn
+  },
+  {
+    name: 'hdtime-signin',
+    description: 'HDTime 签到',
+    schedule: '30 0 * * *',
+    params: configs.hdtime,
+    task: TaskHdtimeSignIn
   },
   {
     name: 'ggpt-signin',
