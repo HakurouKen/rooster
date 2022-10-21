@@ -53,7 +53,7 @@ export async function signInNexusPhpSite(
   }>
 ) {
   const { params, logger } = context;
-  const { signInUrl, tokens, successMatcher } = params;
+  const { signInUrl, tokens, successMatcher = () => true } = params;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
@@ -78,10 +78,6 @@ export async function signInNexusPhpSite(
   if (!response.ok) {
     logger.error({ url: signInUrl, status: response.status });
     throw response;
-  }
-
-  if (!successMatcher) {
-    return response;
   }
 
   const responseText = await response.clone().text();

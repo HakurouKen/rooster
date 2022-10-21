@@ -34,13 +34,25 @@ yargs(hideBin(process.argv))
       console.log('\n');
     }
   )
-  .command('exec <task>', '执行单个任务', withRunnerOptions, (argv) => {
-    run(argv.task as string, {
-      verbose: argv.verbose,
-      logPath: argv.logPath,
-      once: true
-    });
-  })
+  .command(
+    'exec <tasks...>',
+    '执行单个/多个任务',
+    (yargs) =>
+      withRunnerOptions(yargs).positional('tasks', {
+        demand: true,
+        array: true
+      }),
+    async (argv) => {
+      const tasks = argv.tasks as string[];
+      for (const task of tasks) {
+        run(task as string, {
+          verbose: argv.verbose,
+          logPath: argv.logPath,
+          once: true
+        });
+      }
+    }
+  )
   .command(['*', 'run'], '运行监听', withRunnerOptions, (argv) => {
     runAll(argv);
   })
