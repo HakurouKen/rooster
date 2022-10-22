@@ -50,7 +50,7 @@ yargs(hideBin(process.argv))
     async (argv) => {
       const tasks = argv.tasks as string[];
       for (const task of tasks) {
-        run(task as string, {
+        await run(task as string, {
           verbose: argv.verbose,
           logPath: argv.logPath,
           once: true
