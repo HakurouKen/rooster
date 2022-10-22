@@ -21,8 +21,13 @@ yargs(hideBin(process.argv))
   .command(
     'list',
     '列出所有支持的任务',
-    () => {},
-    () => {
+    { short: { type: 'boolean' } },
+    (argv) => {
+      if (argv.short) {
+        console.log(runners.map((runner) => runner.name).join('\n'));
+        return;
+      }
+
       const messages = runners.map(
         (runner) =>
           `  - ${runner.name}${
