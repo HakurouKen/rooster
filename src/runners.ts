@@ -15,6 +15,7 @@ import TaskHdtimeSignIn from './tasks/hdtime-signin.js';
 import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
 import TaskGgptSignIn from './tasks/ggpt-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
+import TaskRedleavesSignIn from './tasks/redleaves-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
 
@@ -95,6 +96,13 @@ export const runners: Runner<any>[] = [
     schedule: '30 0 * * *',
     params: configs.ggpt,
     task: TaskGgptSignIn
+  },
+  {
+    name: 'redleaves-signin',
+    description: '红叶 PT 签到',
+    schedule: '30 0 * * *',
+    params: configs.redleaves,
+    task: TaskRedleavesSignIn
   },
   {
     name: 'xkcd-download',
