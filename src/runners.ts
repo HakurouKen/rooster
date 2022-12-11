@@ -14,6 +14,7 @@ import TaskHddolbySignIn from './tasks/hddolby-signin.js';
 import TaskHdtimeSignIn from './tasks/hdtime-signin.js';
 import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
 import TaskGgptSignIn from './tasks/ggpt-signin.js';
+import TaskPttimeSignIn from './tasks/pttime-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskRedleavesSignIn from './tasks/redleaves-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
@@ -75,6 +76,11 @@ export const runners: Runner<any>[] = [
     name: 'ggpt-signin',
     description: 'GGPT 签到',
     task: TaskGgptSignIn
+  },
+  {
+    name: 'pttime-signin',
+    description: 'PTT 签到',
+    task: TaskPttimeSignIn
   },
   {
     name: 'redleaves-signin',
