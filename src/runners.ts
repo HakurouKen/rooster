@@ -15,6 +15,7 @@ import TaskHdtimeSignIn from './tasks/hdtime-signin.js';
 import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
 import TaskGgptSignIn from './tasks/ggpt-signin.js';
 import TaskPttimeSignIn from './tasks/pttime-signin.js';
+import TaskOldtoonsSignIn from './tasks/oldtoons-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskRedleavesSignIn from './tasks/redleaves-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
@@ -86,6 +87,11 @@ export const runners: Runner<any>[] = [
     name: 'redleaves-signin',
     description: '红叶 PT 签到',
     task: TaskRedleavesSignIn
+  },
+  {
+    name: 'oldtoons-signin',
+    description: 'OldToons PT 签到',
+    task: TaskOldtoonsSignIn
   },
   {
     name: 'xkcd-download',
