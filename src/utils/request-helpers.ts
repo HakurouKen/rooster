@@ -1,6 +1,6 @@
 import fetch, { Response } from 'node-fetch';
 import UserAgent from 'user-agents';
-import type { Logger } from '@/utils/logger.js';
+import { type Logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
 
 export function createCookies(
@@ -10,10 +10,13 @@ export function createCookies(
     return '';
   }
 
-  return Object.keys(o || {}).reduce((cookie: string, key: string) => {
-    const value = o[key as any];
-    return value == null ? cookie : `${cookie};${key}=${value}`;
-  }, '');
+  return Object.keys(o || {})
+    .map((key) => {
+      const value = o[key as any];
+      return value == null ? null : `${key}=${value}`;
+    })
+    .filter((p) => p)
+    .join(';');
 }
 
 /**
@@ -46,6 +49,7 @@ export async function signInNexusPhpSite(
     signInUrl: string;
     requestMethod?: string;
     requestBody?: string;
+    headers?: Record<string, string>;
     tokens: NexusPhpSignInTokens;
     successMatcher?:
       | RegExp
@@ -53,14 +57,18 @@ export async function signInNexusPhpSite(
   }>
 ) {
   const { params, logger } = context;
-  const { signInUrl, tokens, successMatcher = () => true } = params;
+  const {
+    signInUrl,
+    tokens,
+    requestMethod,
+    successMatcher = () => true
+  } = params;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
-  const response = await fetch(signInUrl, {
-    method: params.requestMethod || 'get',
+  const requestOptions = {
+    method: requestMethod || 'get',
     headers: {
-      'content-type': 'application/x-www-form-urlencoded',
       'user-agent': ua.toString(),
       cookie: createCookies({
         c_secure_uid: tokens.uid,
@@ -68,10 +76,18 @@ export async function signInNexusPhpSite(
         c_secure_login: tokens.login || 'bm9wZQ%3D%3D',
         c_secure_ssl: tokens.ssl || 'eWVhaA%3D%3D',
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
-      })
+      }),
+      ...(requestMethod === 'post'
+        ? { 'content-type': 'application/x-www-form-urlencoded' }
+        : {}),
+      ...(params.headers || {})
     },
     body: params.requestBody
-  });
+  };
+
+  logger.info({ url: signInUrl, requestOptions });
+
+  const response = await fetch(signInUrl, requestOptions);
 
   logger.debug({ response });
 

@@ -18,6 +18,7 @@ import TaskPttimeSignIn from './tasks/pttime-signin.js';
 import TaskOldtoonsSignIn from './tasks/oldtoons-signin.js';
 import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskRedleavesSignIn from './tasks/redleaves-signin.js';
+import TaskCarptSignIn from './tasks/carpt-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
 
@@ -92,6 +93,11 @@ export const runners: Runner<any>[] = [
     name: 'oldtoons-signin',
     description: 'OldToons PT 签到',
     task: TaskOldtoonsSignIn
+  },
+  {
+    name: 'carpt-signin',
+    description: '小车站 PT 签到',
+    task: TaskCarptSignIn
   },
   {
     name: 'xkcd-download',
