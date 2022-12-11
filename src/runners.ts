@@ -16,9 +16,10 @@ import TaskHdmayiSignIn from './tasks/hdmayi-signin.js';
 import TaskGgptSignIn from './tasks/ggpt-signin.js';
 import TaskPttimeSignIn from './tasks/pttime-signin.js';
 import TaskOldtoonsSignIn from './tasks/oldtoons-signin.js';
-import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskRedleavesSignIn from './tasks/redleaves-signin.js';
 import TaskCarptSignIn from './tasks/carpt-signin.js';
+import TaskWintersakuraSignIn from './tasks/wintersakura-signin.js';
+import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
 
@@ -98,6 +99,11 @@ export const runners: Runner<any>[] = [
     name: 'carpt-signin',
     description: '小车站 PT 签到',
     task: TaskCarptSignIn
+  },
+  {
+    name: 'wintersakura-signin',
+    description: '冬樱 PT 签到',
+    task: TaskWintersakuraSignIn
   },
   {
     name: 'xkcd-download',
