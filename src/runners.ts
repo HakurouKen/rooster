@@ -23,6 +23,7 @@ import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
 import TaskHealthCheck from './tasks/health-check.js';
 import TaskXkcdDownload from './tasks/xkcd-download.js';
 import TaskBingDailyWallpaperDownload from './tasks/bing-daily-wallpaper-download.js';
+import TaskUnsplashWallpaperDownload from './tasks/unsplash-daily-wallpaper-download.js';
 
 type Runner<T> = {
   name: string;
@@ -115,6 +116,11 @@ export const runners: Runner<any>[] = [
     name: 'bing-daily-wallpaper-download',
     description: 'Bing 每日壁纸下载',
     task: TaskBingDailyWallpaperDownload
+  },
+  {
+    name: 'unsplash-daily-wallpaper-download',
+    description: 'Unsplash 壁纸下载',
+    task: TaskUnsplashWallpaperDownload
   }
 ];
 

@@ -3,6 +3,8 @@ import UserAgent from 'user-agents';
 import { type Logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
 
+export { type Logger };
+
 export function createCookies(
   o?: Record<string, number | string | undefined | null>
 ) {
