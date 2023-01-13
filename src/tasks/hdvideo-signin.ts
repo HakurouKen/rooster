@@ -1,18 +1,11 @@
 import {
-  NexusPhpSignInTokens,
-  RequestContext,
+  type NexusPhpSignInTokens,
   signInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function hdareaSignIn(
-  context: RequestContext<NexusPhpSignInTokens>
-) {
-  const { params: tokens, logger } = context;
+export default async function hdvideoSignIn(params: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
-    logger,
-    params: {
-      signInUrl: 'https://hdvideo.one/attendance.php',
-      tokens
-    }
+    signInUrl: 'https://hdvideo.one/attendance.php',
+    tokens: params
   });
 }

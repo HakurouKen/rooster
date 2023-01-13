@@ -1,18 +1,11 @@
 import {
-  NexusPhpSignInTokens,
-  RequestContext,
+  type NexusPhpSignInTokens,
   signInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function ggptSignIn(
-  context: RequestContext<NexusPhpSignInTokens>
-) {
-  const { params: tokens, logger } = context;
+export default async function ggptSignIn(params: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
-    logger,
-    params: {
-      signInUrl: 'https://gamegamept.cn/attendance.php',
-      tokens
-    }
+    signInUrl: 'https://gamegamept.cn/attendance.php',
+    tokens: params
   });
 }

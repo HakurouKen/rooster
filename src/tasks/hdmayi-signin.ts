@@ -1,18 +1,11 @@
 import {
-  NexusPhpSignInTokens,
-  RequestContext,
+  type NexusPhpSignInTokens,
   signInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function hdmayiSignIn(
-  context: RequestContext<NexusPhpSignInTokens>
-) {
-  const { params: tokens, logger } = context;
+export default async function hdmayiSignIn(params: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
-    logger,
-    params: {
-      signInUrl: 'http://hdmayi.com/attendance.php',
-      tokens
-    }
+    signInUrl: 'http://hdmayi.com/attendance.php',
+    tokens: params
   });
 }

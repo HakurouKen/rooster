@@ -1,9 +1,7 @@
 import fetch, { Response } from 'node-fetch';
 import UserAgent from 'user-agents';
-import { type Logger } from './logger.js';
+import { logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
-
-export { type Logger };
 
 export function createCookies(
   o?: Record<string, number | string | undefined | null>
@@ -41,30 +39,22 @@ function normalizeSuccessMatcher(
   return matcher as Exclude<typeof matcher, RegExp>;
 }
 
-export type RequestContext<T> = {
-  logger: Logger;
-  params: T;
-};
-
-export async function signInNexusPhpSite(
-  context: RequestContext<{
-    signInUrl: string;
-    requestMethod?: string;
-    requestBody?: string;
-    headers?: Record<string, string>;
-    tokens: NexusPhpSignInTokens;
-    successMatcher?:
-      | RegExp
-      | ((text: string, r: Response) => boolean | Promise<boolean>);
-  }>
-) {
-  const { params, logger } = context;
+export async function signInNexusPhpSite(options: {
+  signInUrl: string;
+  requestMethod?: string;
+  requestBody?: string;
+  headers?: Record<string, string>;
+  tokens: NexusPhpSignInTokens;
+  successMatcher?:
+    | RegExp
+    | ((text: string, r: Response) => boolean | Promise<boolean>);
+}) {
   const {
     signInUrl,
     tokens,
     requestMethod,
     successMatcher = () => true
-  } = params;
+  } = options;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
@@ -82,9 +72,9 @@ export async function signInNexusPhpSite(
       ...(requestMethod === 'post'
         ? { 'content-type': 'application/x-www-form-urlencoded' }
         : {}),
-      ...(params.headers || {})
+      ...(options.headers || {})
     },
-    body: params.requestBody
+    body: options.requestBody
   };
 
   logger.info({ url: signInUrl, requestOptions });

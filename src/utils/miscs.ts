@@ -15,6 +15,10 @@ export function ensureDir(filepath: string) {
   }
 }
 
+export function isTruthy(s?: string | null) {
+  return !s && !['', '0', 'false'].includes(s as any);
+}
+
 const LEADING_UNDERSCORE_REGEXP = /^_+/g;
 const SNAKECASE_PAIR = /_+[A-Za-z0-9]/g;
 

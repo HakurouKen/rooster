@@ -1,18 +1,11 @@
 import {
-  NexusPhpSignInTokens,
-  RequestContext,
+  type NexusPhpSignInTokens,
   signInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function wintersakuraSignIn(
-  context: RequestContext<NexusPhpSignInTokens>
-) {
-  const { params: tokens, logger } = context;
+export default async function wintersakuraSignIn(params: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
-    logger,
-    params: {
-      signInUrl: 'https://wintersakura.net/attendance.php',
-      tokens
-    }
+    signInUrl: 'https://wintersakura.net/attendance.php',
+    tokens: params
   });
 }

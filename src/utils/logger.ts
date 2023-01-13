@@ -1,20 +1,12 @@
-import path from 'path';
 import { pino } from 'pino';
+import { isTruthy } from './miscs';
 
-export function createLogger(
-  name: string,
-  options: { verbose?: boolean; logPath: string }
-) {
-  const { verbose = false, logPath } = options;
+export function createLogger(options: { verbose?: boolean }) {
+  const { verbose = false } = options;
   const level = verbose ? 'debug' : 'info';
   return pino({
     transport: {
       targets: [
-        {
-          level,
-          target: 'pino/file',
-          options: { destination: path.join(logPath, `${name}.log`) }
-        },
         {
           level,
           target: 'pino-pretty',
@@ -25,4 +17,4 @@ export function createLogger(
   });
 }
 
-export type { Logger } from 'pino';
+export const logger = createLogger({ verbose: isTruthy(process.env.DEBUG) });

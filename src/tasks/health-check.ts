@@ -1,6 +1,5 @@
-import { RequestContext } from '@/utils/request-helpers.js';
+import { logger } from '@/utils/logger.js';
 
-export default function healthCheck(context: RequestContext<null>) {
-  const { logger } = context;
+export default function healthCheck() {
   logger.info('done');
 }

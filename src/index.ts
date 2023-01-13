@@ -2,19 +2,15 @@
 
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
-import { run, runAll, runners } from '@/runners.js';
+import { run, runAll, tasks } from '@/task-runners.js';
+import { loadConfig } from '@/configs.js';
 
-function withRunnerOptions(yargs: yargs.Argv) {
-  return yargs
-    .positional('verbose', {
-      alias: 'v',
-      type: 'boolean',
-      default: false,
-      description: 'verbose'
-    })
-    .positional('logPath', {
-      type: 'string'
-    });
+function withConfigOptions(yargs: yargs.Argv) {
+  return yargs.positional('config', {
+    alias: 'c',
+    type: 'string',
+    description: '自定义配置文件路径'
+  });
 }
 
 yargs(hideBin(process.argv))
@@ -24,15 +20,13 @@ yargs(hideBin(process.argv))
     { short: { type: 'boolean' } },
     (argv) => {
       if (argv.short) {
-        console.log(runners.map((runner) => runner.name).join('\n'));
+        console.log(tasks.map((task) => task.name).join('\n'));
         return;
       }
 
-      const messages = runners.map(
-        (runner) =>
-          `  - ${runner.name}${
-            runner.description ? `: ${runner.description}` : ''
-          }`
+      const messages = tasks.map(
+        (task) =>
+          `  - ${task.name}${task.description ? `: ${task.description}` : ''}`
       );
       console.log(`\nTasks: \n`);
       console.log(messages.join('\n'));
@@ -40,27 +34,33 @@ yargs(hideBin(process.argv))
     }
   )
   .command(
-    'exec <tasks...>',
+    'exec [tasks...]',
     '执行单个/多个任务',
     (yargs) =>
-      withRunnerOptions(yargs).positional('tasks', {
-        demand: true,
-        array: true
+      withConfigOptions(yargs).positional('tasks', {
+        array: true,
+        demand: false
       }),
     async (argv) => {
+      loadConfig(argv.config);
       const tasks = argv.tasks as string[];
-      for (const task of tasks) {
-        await run(task as string, {
-          verbose: argv.verbose,
-          logPath: argv.logPath,
-          once: true
-        });
+      if (tasks.length) {
+        for (const task of tasks) {
+          await run(task as string);
+        }
+      } else {
+        runAll();
       }
     }
   )
-  .command(['*', 'run'], '运行监听', withRunnerOptions, (argv) => {
-    runAll(argv);
-  })
+  .command(
+    '*',
+    '执行所有任务',
+    (yargs) => withConfigOptions(yargs),
+    async () => {
+      runAll();
+    }
+  )
   .demandCommand()
   .help()
   .parse();

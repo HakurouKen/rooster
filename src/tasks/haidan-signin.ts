@@ -1,20 +1,12 @@
 import {
-  NexusPhpSignInTokens,
-  RequestContext,
+  type NexusPhpSignInTokens,
   signInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function haidanSignIn(
-  context: RequestContext<NexusPhpSignInTokens>
-) {
-  const { params: tokens, logger } = context;
-
+export default async function haidanSignIn(params: NexusPhpSignInTokens) {
   return signInNexusPhpSite({
-    logger,
-    params: {
-      signInUrl: 'https://www.haidan.video/signin.php',
-      requestMethod: 'post',
-      tokens
-    }
+    signInUrl: 'https://www.haidan.video/signin.php',
+    requestMethod: 'post',
+    tokens: params
   });
 }
