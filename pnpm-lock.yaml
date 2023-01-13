@@ -10,6 +10,7 @@ specifiers:
   cosmiconfig: ^7.0.1
   cross-env: ^7.0.3
   esbuild: ^0.15.10
+  is-plain-object: ^5.0.0
   lint-staged: ^13.0.3
   node-fetch: ^3.2.10
   pino: ^8.6.1
@@ -24,6 +25,7 @@ specifiers:
 dependencies:
   cheerio: 1.0.0-rc.12
   cosmiconfig: 7.0.1
+  is-plain-object: 5.0.0
   node-fetch: 3.2.10
   pino: 8.6.1
   pino-pretty: 9.1.1
@@ -1042,6 +1044,11 @@ packages:
     resolution: {integrity: sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==}
     engines: {node: '>=0.12.0'}
     dev: true
+
+  /is-plain-object/5.0.0:
+    resolution: {integrity: sha512-VRSzKkbMm5jMDoKLbltAkFQ5Qr7VDiTFGXxYFXXowVj387GeGNOCsOH6Msy00SGZ3Fp84b1Naa1psqgcCIEP5Q==}
+    engines: {node: '>=0.10.0'}
+    dev: false
 
   /is-stream/3.0.0:
     resolution: {integrity: sha512-LnQR4bZ9IADDRSkvpqMGvt/tEJWclzklNgSw48V5EAaAeDd6qGvN8ei6k5p0tvxSR171VmGyHuTiAOfxAbr8kA==}
