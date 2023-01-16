@@ -6,8 +6,8 @@ import {
 export default async function hdareaCheckIn(params: NexusPhpCheckInTokens) {
   return checkInNexusPhpSite({
     checkInUrl: 'https://www.hdarea.co/sign_in.php',
-    requestMethod: 'post',
-    requestBody: 'action=sign_in',
-    tokens: params
+    tokens: params,
+    method: 'post',
+    body: 'action=sign_in'
   });
 }

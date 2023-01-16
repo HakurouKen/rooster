@@ -3,10 +3,10 @@ import {
   checkInNexusPhpSite
 } from '@/utils/request-helpers.js';
 
-export default async function haidanCheckIn(params: NexusPhpCheckInTokens) {
+export default function haidanCheckIn(params: NexusPhpCheckInTokens) {
   return checkInNexusPhpSite({
     checkInUrl: 'https://www.haidan.video/signin.php',
-    requestMethod: 'post',
+    method: 'post',
     tokens: params
   });
 }

@@ -1,4 +1,4 @@
-import fetch, { Response } from 'node-fetch';
+import fetch, { type Response } from 'node-fetch';
 import UserAgent from 'user-agents';
 import { logger } from './logger.js';
 import { getTypeOf } from './miscs.js';
@@ -41,25 +41,20 @@ function normalizeSuccessMatcher(
 
 export async function checkInNexusPhpSite(options: {
   checkInUrl: string;
-  requestMethod?: string;
-  requestBody?: string;
+  method?: string;
+  body?: string;
   headers?: Record<string, string>;
   tokens: NexusPhpCheckInTokens;
   successMatcher?:
     | RegExp
     | ((text: string, r: Response) => boolean | Promise<boolean>);
 }) {
-  const {
-    checkInUrl,
-    tokens,
-    requestMethod,
-    successMatcher = () => true
-  } = options;
+  const { checkInUrl, tokens, method, successMatcher = () => true } = options;
 
   const ua = new UserAgent({ deviceCategory: 'desktop' });
 
   const requestOptions = {
-    method: requestMethod || 'get',
+    method: method || 'get',
     headers: {
       'user-agent': ua.toString(),
       cookie: createCookies({
@@ -69,15 +64,15 @@ export async function checkInNexusPhpSite(options: {
         c_secure_ssl: tokens.ssl || 'eWVhaA%3D%3D',
         c_secure_tracker_ssl: tokens.tracker_ssl || 'eWVhaA%3D%3D'
       }),
-      ...(requestMethod === 'post'
+      ...(method === 'post'
         ? { 'content-type': 'application/x-www-form-urlencoded' }
         : {}),
       ...(options.headers || {})
     },
-    body: options.requestBody
+    body: options.body
   };
 
-  logger.info({ url: checkInUrl, requestOptions });
+  logger.debug({ url: checkInUrl, requestOptions });
 
   const response = await fetch(checkInUrl, requestOptions);
 
@@ -88,12 +83,15 @@ export async function checkInNexusPhpSite(options: {
     throw response;
   }
 
-  const responseText = await response.clone().text();
+  // Do not clone a stream due to:
+  //  https://github.com/node-fetch/node-fetch/issues/665
+  const responseText = await response.text();
 
   const matched = await normalizeSuccessMatcher(successMatcher)(
     responseText,
     response
   );
+
   if (!matched) {
     logger.error({ url: checkInUrl, status: response.status, responseText });
     throw response;
