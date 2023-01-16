@@ -22,7 +22,7 @@ export function createCookies(
 /**
  * tokens for NexusPhp
  */
-export interface NexusPhpSignInTokens {
+export interface NexusPhpCheckInTokens {
   uid: string;
   pass: string;
   login?: string;
@@ -39,18 +39,18 @@ function normalizeSuccessMatcher(
   return matcher as Exclude<typeof matcher, RegExp>;
 }
 
-export async function signInNexusPhpSite(options: {
-  signInUrl: string;
+export async function checkInNexusPhpSite(options: {
+  checkInUrl: string;
   requestMethod?: string;
   requestBody?: string;
   headers?: Record<string, string>;
-  tokens: NexusPhpSignInTokens;
+  tokens: NexusPhpCheckInTokens;
   successMatcher?:
     | RegExp
     | ((text: string, r: Response) => boolean | Promise<boolean>);
 }) {
   const {
-    signInUrl,
+    checkInUrl,
     tokens,
     requestMethod,
     successMatcher = () => true
@@ -77,14 +77,14 @@ export async function signInNexusPhpSite(options: {
     body: options.requestBody
   };
 
-  logger.info({ url: signInUrl, requestOptions });
+  logger.info({ url: checkInUrl, requestOptions });
 
-  const response = await fetch(signInUrl, requestOptions);
+  const response = await fetch(checkInUrl, requestOptions);
 
   logger.debug({ response });
 
   if (!response.ok) {
-    logger.error({ url: signInUrl, status: response.status });
+    logger.error({ url: checkInUrl, status: response.status });
     throw response;
   }
 
@@ -95,10 +95,10 @@ export async function signInNexusPhpSite(options: {
     response
   );
   if (!matched) {
-    logger.error({ url: signInUrl, status: response.status, responseText });
+    logger.error({ url: checkInUrl, status: response.status, responseText });
     throw response;
   }
 
-  logger.info({ url: signInUrl, message: 'success' });
+  logger.info({ url: checkInUrl, message: 'success' });
   return response;
 }

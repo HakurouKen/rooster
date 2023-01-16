@@ -1,15 +1,15 @@
 import { logger } from './utils/logger.js';
 import { taskConfigs } from './configs.js';
 
-import TaskHdareaSignIn from './tasks/hdarea-signin.js';
-import TaskHaidanSignIn from './tasks/haidan-signin.js';
-import TaskHdvideoSignIn from './tasks/hdvideo-signin.js';
-import TaskHdtimeSignIn from './tasks/hdtime-signin.js';
-import TaskPttimeSignIn from './tasks/pttime-signin.js';
-import TaskOldtoonsSignIn from './tasks/oldtoons-signin.js';
-import TaskRedleavesSignIn from './tasks/redleaves-signin.js';
-import TaskWintersakuraSignIn from './tasks/wintersakura-signin.js';
-import TaskNeteaseSignIn from './tasks/netease-music-signin.js';
+import TaskHdareaCheckIn from './tasks/hdarea-checkin.js';
+import TaskHaidanCheckIn from './tasks/haidan-checkin.js';
+import TaskHdvideoCheckIn from './tasks/hdvideo-checkin.js';
+import TaskHdtimeCheckIn from './tasks/hdtime-checkin.js';
+import TaskPttimeCheckIn from './tasks/pttime-checkin.js';
+import TaskOldtoonsCheckIn from './tasks/oldtoons-checkin.js';
+import TaskRedleavesCheckIn from './tasks/redleaves-checkin.js';
+import TaskWintersakuraCheckIn from './tasks/wintersakura-checkin.js';
+import TaskNeteaseCheckIn from './tasks/netease-music-checkin.js';
 
 type Task = {
   name: string;
@@ -19,49 +19,49 @@ type Task = {
 
 export const tasks: Task[] = [
   {
-    name: 'netease-music-signin',
+    name: 'netease-music-checkin',
     description: '网易云音乐签到',
-    task: TaskNeteaseSignIn
+    task: TaskNeteaseCheckIn
   },
   {
-    name: 'hdarea-signin',
+    name: 'hdarea-checkin',
     description: 'HDArea PT 签到',
-    task: TaskHdareaSignIn
+    task: TaskHdareaCheckIn
   },
   {
-    name: 'haidan-signin',
+    name: 'haidan-checkin',
     description: '海胆 PT 签到',
-    task: TaskHaidanSignIn
+    task: TaskHaidanCheckIn
   },
   {
-    name: 'hdvideo-signin',
+    name: 'hdvideo-checkin',
     description: 'HDVIDEO PT 签到',
-    task: TaskHdvideoSignIn
+    task: TaskHdvideoCheckIn
   },
   {
-    name: 'hdtime-signin',
+    name: 'hdtime-checkin',
     description: 'HDTime 签到',
-    task: TaskHdtimeSignIn
+    task: TaskHdtimeCheckIn
   },
   {
-    name: 'pttime-signin',
+    name: 'pttime-checkin',
     description: 'PTT 签到',
-    task: TaskPttimeSignIn
+    task: TaskPttimeCheckIn
   },
   {
-    name: 'redleaves-signin',
+    name: 'redleaves-checkin',
     description: '红叶 PT 签到',
-    task: TaskRedleavesSignIn
+    task: TaskRedleavesCheckIn
   },
   {
-    name: 'oldtoons-signin',
+    name: 'oldtoons-checkin',
     description: 'OldToons PT 签到',
-    task: TaskOldtoonsSignIn
+    task: TaskOldtoonsCheckIn
   },
   {
-    name: 'wintersakura-signin',
+    name: 'wintersakura-checkin',
     description: '冬樱 PT 签到',
-    task: TaskWintersakuraSignIn
+    task: TaskWintersakuraCheckIn
   }
 ];
 

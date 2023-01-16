@@ -7,7 +7,7 @@ enum NeteaseMusicDeviceType {
   PC = 1
 }
 
-async function signInOnDevice(options: {
+async function checkInOnDevice(options: {
   music_u: string;
   deviceType: NeteaseMusicDeviceType;
 }) {
@@ -34,14 +34,14 @@ async function signInOnDevice(options: {
   }
 }
 
-export default function neteaseMusicSignIn(params: { music_u: string }) {
+export default function neteaseMusicCheckIn(params: { music_u: string }) {
   const { music_u } = params;
   return Promise.all([
-    signInOnDevice({
+    checkInOnDevice({
       music_u,
       deviceType: NeteaseMusicDeviceType.MOBILE
     }),
-    signInOnDevice({
+    checkInOnDevice({
       music_u,
       deviceType: NeteaseMusicDeviceType.PC
     })
