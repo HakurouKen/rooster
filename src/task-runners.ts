@@ -84,7 +84,9 @@ export async function run(taskName: string | Task) {
   }
 }
 
-export function runAll() {
+export async function runAll() {
   logger.info(`punch start running...`);
-  return tasks.map(async (task) => await run(task));
+  for (const task of tasks) {
+    await run(task);
+  }
 }
