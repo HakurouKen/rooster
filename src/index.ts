@@ -4,13 +4,19 @@ import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import { run, runAll, tasks } from '@/task-runners.js';
 import { loadConfig } from '@/configs.js';
+import { logger } from '@/utils/logger.js';
 
-function withConfigOptions(yargs: yargs.Argv) {
-  return yargs.positional('config', {
-    alias: 'c',
-    type: 'string',
-    description: '自定义配置文件路径'
-  });
+function withExecutableOptions(yargs: yargs.Argv) {
+  return yargs
+    .positional('config', {
+      alias: 'c',
+      type: 'string',
+      description: '自定义配置文件路径'
+    })
+    .positional('verbose', {
+      type: 'boolean',
+      description: '输出'
+    });
 }
 
 yargs(hideBin(process.argv))
@@ -37,12 +43,15 @@ yargs(hideBin(process.argv))
     'exec [tasks...]',
     '执行单个/多个任务',
     (yargs) =>
-      withConfigOptions(yargs).positional('tasks', {
+      withExecutableOptions(yargs).positional('tasks', {
         array: true,
         demand: false
       }),
     async (argv) => {
       loadConfig(argv.config);
+      if (argv.verbose) {
+        logger.level = 'debug';
+      }
       const tasks = argv.tasks as string[];
       if (tasks.length) {
         for (const task of tasks) {
@@ -56,8 +65,12 @@ yargs(hideBin(process.argv))
   .command(
     '*',
     '执行所有任务',
-    (yargs) => withConfigOptions(yargs),
-    async () => {
+    (yargs) => withExecutableOptions(yargs),
+    async (argv) => {
+      loadConfig(argv.config);
+      if (argv.verbose) {
+        logger.level = 'debug';
+      }
       runAll();
     }
   )
