@@ -36,14 +36,8 @@ async function checkInOnDevice(options: {
 
 export default function neteaseMusicCheckIn(params: { music_u: string }) {
   const { music_u } = params;
-  return Promise.all([
-    checkInOnDevice({
-      music_u,
-      deviceType: NeteaseMusicDeviceType.MOBILE
-    }),
-    checkInOnDevice({
-      music_u,
-      deviceType: NeteaseMusicDeviceType.PC
-    })
-  ]);
+  return checkInOnDevice({
+    music_u,
+    deviceType: NeteaseMusicDeviceType.MOBILE
+  });
 }
