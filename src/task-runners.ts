@@ -65,15 +65,19 @@ export const tasks: Task[] = [
   }
 ];
 
-export async function run(taskName: string | Task) {
-  const task =
-    typeof taskName === 'string'
-      ? tasks.find((t) => t.name === taskName)
-      : taskName;
-
-  if (!task) {
-    throw new Error(`Task "${task}" not found.`);
+function findTask(taskName: string | Task) {
+  if (typeof taskName === 'string') {
+    const task = tasks.find((t) => t.name === taskName);
+    if (!task) {
+      throw new Error(`Task "${taskName}" not found.`);
+    }
+    return task;
   }
+  return taskName;
+}
+
+export async function run(taskName: string | Task) {
+  const task = findTask(taskName);
 
   try {
     logger.info(`[${task.name}] start.`);
@@ -85,7 +89,7 @@ export async function run(taskName: string | Task) {
 }
 
 export async function runAll() {
-  logger.info(`punch start running...`);
+  logger.info(`rooster start running...`);
   for (const task of tasks) {
     await run(task);
   }
