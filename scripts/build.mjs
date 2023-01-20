@@ -11,7 +11,7 @@ await esbuild.build({
   bundle: true,
   format: 'esm',
   entryPoints: ['src/index.ts'],
-  outfile: 'dist/punch.mjs',
+  outfile: 'dist/rooster.mjs',
   watch: process.env.DEBUG === '1',
   external: Object.keys(packageJson.dependencies || {}),
   platform: 'node',

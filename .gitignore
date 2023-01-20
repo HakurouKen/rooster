@@ -3,8 +3,8 @@ node_modules
 
 *.log
 dist
-.punchrc.json
-.punchrc.yml
+.roosterrc.json
+.roosterrc.yml
 
 playground/*
 !playground/.gitkeep

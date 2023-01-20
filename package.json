@@ -1,5 +1,5 @@
 {
-  "name": "@leroy/punch",
+  "name": "@leroy/brush",
   "version": "0.0.0",
   "description": "",
   "private": true,
@@ -8,7 +8,7 @@
   "license": "MIT",
   "type": "module",
   "bin": {
-    "punch": "./dist/punch.mjs"
+    "rooster": "./dist/rooster.mjs"
   },
   "scripts": {
     "exec": "node dist/bin/exec",

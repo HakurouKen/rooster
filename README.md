@@ -1,3 +1,3 @@
-# punch
+# rooster
 
-> punch is an automatic cron-task bot.
+> rooster is an automatic cron-task bot.

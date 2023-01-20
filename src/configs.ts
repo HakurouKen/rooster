@@ -1,6 +1,6 @@
 import { cosmiconfigSync } from 'cosmiconfig';
 
-const explorer = cosmiconfigSync('punch');
+const explorer = cosmiconfigSync('rooster');
 
 const defaultTaskConfigs = explorer.search()?.config;
 

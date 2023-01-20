@@ -1,0 +1,28 @@
+name: Daily Check-in
+
+on:
+  schedule:
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  check-in:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 7
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm install
+      - name: Build
+        run: pnpm run build
+      - name: Execute Tasks
+        run: |
+          gpg --batch --yes --decrypt --passphrase="$SECRET_TOKEN" --output $HOME/.a.yml .encrypted_private_config.gpg
+          pnpm run exec
