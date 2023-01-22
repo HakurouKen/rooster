@@ -11,10 +11,11 @@
     "rooster": "./dist/rooster.mjs"
   },
   "scripts": {
-    "exec": "node dist/bin/exec",
+    "exec": "node dist/rooster.mjs",
     "play": "zx ./scripts/play.mjs",
     "build": "zx ./scripts/build.mjs",
-    "build:watch": "cross-env DEBUG=1 npm run build"
+    "build:watch": "cross-env DEBUG=1 npm run build",
+    "encrypt": "gpg --symmetric --cipher-algo AES256 --yes .roosterrc.yml"
   },
   "devDependencies": {
     "@types/node": "^18.7.23",
