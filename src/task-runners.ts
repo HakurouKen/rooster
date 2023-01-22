@@ -8,7 +8,6 @@ import TaskHdtimeCheckIn from './tasks/hdtime-checkin.js';
 import TaskPttimeCheckIn from './tasks/pttime-checkin.js';
 import TaskOldtoonsCheckIn from './tasks/oldtoons-checkin.js';
 import TaskRedleavesCheckIn from './tasks/redleaves-checkin.js';
-import TaskWintersakuraCheckIn from './tasks/wintersakura-checkin.js';
 import TaskNeteaseCheckIn from './tasks/netease-music-checkin.js';
 
 type Task = {
@@ -57,11 +56,6 @@ export const tasks: Task[] = [
     name: 'oldtoons-checkin',
     description: 'OldToons PT 签到',
     task: TaskOldtoonsCheckIn
-  },
-  {
-    name: 'wintersakura-checkin',
-    description: '冬樱 PT 签到',
-    task: TaskWintersakuraCheckIn
   }
 ];
 
