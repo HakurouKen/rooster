@@ -11,7 +11,7 @@
     "rooster": "./dist/rooster.mjs"
   },
   "scripts": {
-    "exec": "node dist/rooster.mjs",
+    "rooster": "node dist/rooster.mjs",
     "play": "zx ./scripts/play.mjs",
     "build": "zx ./scripts/build.mjs",
     "build:watch": "cross-env DEBUG=1 npm run build",

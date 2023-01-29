@@ -25,4 +25,4 @@ jobs:
       - name: Execute Tasks
         run: |
           gpg --batch --yes --decrypt --passphrase="${{ secrets.SECRET_TOKEN }}" --output $HOME/.roosterrc.yml .roosterrc-secret.yml.gpg
-          pnpm run exec
+          pnpm run rooster
